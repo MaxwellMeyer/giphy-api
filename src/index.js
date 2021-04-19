@@ -6,12 +6,27 @@ import $ from 'jquery';
 $(document).ready(function () {
   const apiKey = process.env.API_KEY;
 
-  $("#search").click(function () {
+  $("#btns").click(function (event) {
     let gifhy = $("#keyword").val();
     $("#keyword").val("");
-
+    let url;
+    let btnValue = $("#btns").val();
+    switch (btnValue) {
+      case "search":
+        url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}&limit=5`;
+        break;
+      case "trending":
+        url = `http://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=5`;
+        break;
+      case "random":
+        url = `http://api.giphy.com/v1/gifs/random?api_key=${apiKey}&limit=5`;
+        break;
+      default:
+        console.log("Error no button value");
+        break;
+    }
     let request = new XMLHttpRequest();
-    const url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}&limit=5`;
+    // const url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}&limit=5`;
 
     request.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
@@ -32,6 +47,6 @@ $(document).ready(function () {
       });
       $(".show").html(htmlString).show();
     }
-
   });
+
 });
