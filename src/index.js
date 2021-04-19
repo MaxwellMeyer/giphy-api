@@ -11,7 +11,7 @@ $(document).ready(function () {
     $("#keyword").val("");
 
     let request = new XMLHttpRequest();
-    const url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}`;
+    const url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}&limit=5`;
 
     request.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
@@ -24,11 +24,13 @@ $(document).ready(function () {
     request.send();
 
     function getElements(response) {
-      const embeddedGifUrl = response.data[0].images.original.url;
-      console.log(embeddedGifUrl);
-      const htmlString = `<img src="${embeddedGifUrl}" alt="${gifhy} GIF"/>`;
+      const dataArray = response.data;
+      let htmlString = "";
+      dataArray.forEach((element) => {
+        const gifUrl = element.images.original.url;
+        htmlString += `<img src="${gifUrl}" alt="${gifhy} GIF"/>`;
+      });
       $(".show").html(htmlString).show();
-
     }
 
   });
