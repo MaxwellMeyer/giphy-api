@@ -6,11 +6,12 @@ import $ from 'jquery';
 $(document).ready(function () {
   const apiKey = process.env.API_KEY;
 
-  $("#btns").click(function (event) {
+  $("#btns").on("click", "button", function (event) {
     let gifhy = $("#keyword").val();
     $("#keyword").val("");
     let url;
-    let btnValue = $("#btns").val();
+    // let btnValue = $("#btns").val();
+    let btnValue = this.value;
     switch (btnValue) {
       case "search":
         url = `http://api.giphy.com/v1/gifs/search?q=${gifhy}&api_key=${apiKey}&limit=5`;
@@ -19,10 +20,10 @@ $(document).ready(function () {
         url = `http://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=5`;
         break;
       case "random":
-        url = `http://api.giphy.com/v1/gifs/random?api_key=${apiKey}&limit=5`;
+        url = `http://api.giphy.com/v1/gifs/random?api_key=${apiKey}`;
         break;
       default:
-        console.log("Error no button value");
+        console.error(`Error unknown button value: ${btnValue}`);
         break;
     }
     let request = new XMLHttpRequest();
@@ -41,10 +42,15 @@ $(document).ready(function () {
     function getElements(response) {
       const dataArray = response.data;
       let htmlString = "";
-      dataArray.forEach((element) => {
-        const gifUrl = element.images.original.url;
+      if (dataArray.length === undefined) {
+        const gifUrl = dataArray.images.original.url;
         htmlString += `<img src="${gifUrl}" alt="${gifhy} GIF"/>`;
-      });
+      } else {
+        dataArray.forEach(element => {
+          const gifUrl = element.images.original.url;
+          htmlString += `<img src="${gifUrl}" alt="${gifhy} GIF"/>`;
+        });
+      }
       $(".show").html(htmlString).show();
     }
   });
