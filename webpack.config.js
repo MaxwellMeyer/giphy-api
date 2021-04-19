@@ -10,16 +10,15 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   devtool: 'eval-source-map',
-  devServer: {                 
-    contentBase: './'      
+  devServer: {
+    contentBase: './'
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Template',
       template: './src/index.html',
-      inject: 'body',
-      favicon: './assets/images/favicon.ico'
+      inject: 'body'
     }),
     new Dotenv()
   ],
@@ -37,9 +36,9 @@ module.exports = {
           }
         ]
       },
-      
+
       {
-        test:/\.html$/,
+        test: /\.html$/,
         use: [
           'html-loader'
         ]

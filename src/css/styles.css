@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background: linear-gradient(to right, rgb(0, 233, 233), blue, rgb(2, 2, 223));
+}
+.jumbotron {
+  text-align: center;
+  border-radius: 50%;
+}
+.show {
+  display: none;
+}
